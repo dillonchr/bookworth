@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import searcher from './searcher';
+import SearchResult from './search-result';
+import './search.css';
 
 class Search extends Component {
     constructor(props) {
@@ -12,7 +14,8 @@ class Search extends Component {
     }
 
     render() {
-        const listings = this.state.soldListings.map(l => (<div key={l.id}>{l.name}</div>));
+        const listings = this.state.soldListings
+            .map(l => (<SearchResult listing={l} key={l.id}/>));
         return (
             <div className="search">
                 <input type="text"

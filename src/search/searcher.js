@@ -54,7 +54,7 @@ class Searcher {
             .filter(l => !!l.galleryURL && l.galleryURL.length > 0)
             .map(l => {
                 const title = l.title[0];
-                const price = parseFloat(l.sellingStatus[0].convertedCurrentPrice[0].__value__);
+                const price = Math.round(parseFloat(l.sellingStatus[0].convertedCurrentPrice[0].__value__));
                 const date = new Date(l.listingInfo[0].endTime[0]).getTime();
 
                 return {
