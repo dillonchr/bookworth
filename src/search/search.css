@@ -6,13 +6,18 @@
     align-items: center;
     background: white;
     border-radius: 5px;
+    border-left: solid 10px yellow;
     display: flex;
     justify-content: space-between;
-    margin: 1em;
+    margin: 0.5em;
+}
+
+.search-result.sold {
+    border-left-color: green;
 }
 
 .search-result__text {
-    margin: 1em;
+    margin: 0.5em;
     text-align: left;
 }
 
@@ -47,5 +52,9 @@
     .search__results {
         display: flex;
         flex-wrap: wrap;
+    }
+
+    .search-result__text {
+        margin: 1em;
     }
 }

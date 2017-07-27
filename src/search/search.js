@@ -36,8 +36,8 @@ class Search extends Component {
 
     search() {
         searcher.search(this.state.q)
-            .then(([sold, live]) => {
-                this.setState({soldListings: sold});
+            .then(listings => {
+                this.setState({soldListings: listings});
             });
     }
 }

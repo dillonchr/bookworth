@@ -5,6 +5,7 @@ const REGEX = {
     LOT: /[^\w]set[^\w]|lot of|[^\w]lot[^\w]/i,
     SIGNED: /signed|inscribed|autograph/i
 };
+const sellingStatuses = ['EndedWithSales', 'Active'];
 let jsonCallbackCounter = 0;
 
 class Searcher {
@@ -12,7 +13,13 @@ class Searcher {
         return Promise.all([
             this.searchSoldListings(query),
             this.searchLiveListings(query)
-        ]);
+        ])
+            .then(([sold, live]) => {
+                return sold.concat(live)
+                    .sort(function (a, b) {
+                        return b.price - a.price;
+                    });
+            });
     }
 
     buildApiUrl({controller, filters = [], q, callback}) {
@@ -51,7 +58,7 @@ class Searcher {
         const firstKey = Object.keys(listings)[0];
         const resultSet = listings[firstKey][0].searchResult[0].item;
         return resultSet
-            .filter(l => !!l.galleryURL && l.galleryURL.length > 0)
+            .filter(l => !!l.galleryURL && l.galleryURL.length > 0 && sellingStatuses.indexOf(l.sellingStatus[0].sellingState[0]) !== -1)
             .map(l => {
                 const title = l.title[0];
                 const price = Math.round(parseFloat(l.sellingStatus[0].convertedCurrentPrice[0].__value__));
@@ -68,11 +75,9 @@ class Searcher {
                     signed: REGEX.SIGNED.test(title),
                     lot: REGEX.LOT.test(title),
                     audiobook: REGEX.AUDIOBOOK.test(title),
-                    leather: REGEX.LEATHER.test(title)
+                    leather: REGEX.LEATHER.test(title),
+                    sold: l.sellingStatus[0].sellingState[0] === sellingStatuses[0]
                 };
-            })
-            .sort(function (a, b) {
-                return b.price - a.price;
             });
     }
 

@@ -3,13 +3,16 @@ import React, {Component} from 'react';
 export default class SearchResult extends Component {
     render() {
         const l = this.props.listing;
+        const statusClass = `search-result ${l.sold ? 'sold' : ''}`;
         return(
-            <div className="search-result">
+            <div className={statusClass}>
                 <div className="search-result__text">
                     <p className="search-result__price">${l.price}</p>
                     <p className="search-result__description">{l.name}</p>
                 </div>
-                <img className="search-result__thumb" src={l.imageUrl}/>
+                <a href={l.url} target="_blank">
+                    <img className="search-result__thumb" src={l.imageUrl}/>
+                </a>
             </div>
         );
     }
