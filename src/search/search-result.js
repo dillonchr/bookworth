@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 export default class SearchResult extends Component {
     render() {
         const l = this.props.listing;
-        const statusClass = `search-result ${l.sold ? 'sold' : ''}`;
+        const statusClass = `search-result ${l.sold && 'sold'}`;
         return(
             <div className={statusClass}>
                 <div className="search-result__text">

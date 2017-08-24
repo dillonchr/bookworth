@@ -12,28 +12,27 @@ const FILTER_SETTINGS = {
 class Search extends Component {
     state = {
         q: '',
-        placeholder: 'Search',
-        soldListings: [],
+        listings: [],
         searching: false,
-        filterResults: 0
+        filter: FILTER_SETTINGS.ALL
     };
 
     getFilterOption(label) {
         const optionValue = FILTER_SETTINGS[label.toUpperCase()];
-        const isSelected = this.state.filterResults === optionValue;
+        const isSelected = this.state.filter === optionValue;
         const className = `filter__option ${isSelected && 'filter__option--selected'}`;
         return <button className={className} onClick={() => this.setFilter(optionValue)}>{label}</button>;
     }
 
     setFilter(f) {
         this.setState({
-            filterResults: f
+            filter: f
         });
     }
 
     getFilteredListings() {
-        const l = this.state.soldListings;
-        const f = this.state.filterResults;
+        const l = this.state.listings;
+        const f = this.state.filter;
         if (f === FILTER_SETTINGS.SOLD) {
             return l.filter(l => l.sold);
         }
@@ -46,7 +45,8 @@ class Search extends Component {
     render() {
         const listings = this.getFilteredListings()
             .map(l => (<SearchResult listing={l} key={l.id}/>));
-        const searchImage = this.state.searching ? 'hourglass' : 'search';
+
+        const searchIconName = this.state.searching ? 'hourglass' : 'search';
         return (
             <div>
                 <form className="search" onSubmit={this.onSubmitSearch.bind(this)}>
@@ -59,7 +59,7 @@ class Search extends Component {
                     <input type="image"
                          alt="Search"
                          className="search__button"
-                         src={`imgs/icon-${searchImage}.gif`} />
+                         src={`imgs/icon-${searchIconName}.gif`} />
                     <input type="image"
                          alt="Clear"
                          src="imgs/icon-clear.gif"
@@ -95,21 +95,21 @@ class Search extends Component {
     clear() {
         this.setState({
             q: '',
-            soldListings: []
+            listings: []
         });
     }
 
     search() {
-        if (!!this.state.q) {
+        if (!!this.state.q && !this.state.searching) {
             this.setState({
                 searching: true
             }, () => searcher.search(this.state.q)
-                .then(listings => {
-                    this.setState({
-                        soldListings: listings,
+                .then(l => this.setState({
+                        listings: l,
                         searching: false
-                    });
-                }));
+                    })
+                )
+            );
         }
     }
 }
