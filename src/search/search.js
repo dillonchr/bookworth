@@ -18,16 +18,25 @@ class Search extends Component {
             .map(l => (<SearchResult listing={l} key={l.id}/>));
         return (
             <div className="search">
-                <input type="text"
-                       value={this.state.q}
-                       onChange={this.onInputChange.bind(this)}
-                       placeholder={this.state.placeholder} />
-                <button onClick={this.search.bind(this)}>Search</button>
-                <div className="search__results">
-                    {listings}
-                </div>
+                <form onSubmit={this.onSubmitSearch.bind(this)}>
+                    <input type="text"
+                           value={this.state.q}
+                           onChange={this.onInputChange.bind(this)}
+                           placeholder={this.state.placeholder}
+                           ref={i => this.searchInput = i} />
+                    <button onClick={this.search.bind(this)}>Search</button>
+                    <div className="search__results">
+                        {listings}
+                    </div>
+                </form>
             </div>
         );
+    }
+
+    onSubmitSearch(e) {
+        e.preventDefault();
+        this.search();
+        this.searchInput.blur();
     }
 
     onInputChange(e) {

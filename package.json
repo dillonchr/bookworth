@@ -2,6 +2,7 @@
   "name": "bookworth",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://dillonchr.webfactional.com/bookworth/",
   "dependencies": {
     "fetch-jsonp": "^1.1.1",
     "react": "^15.6.1",
