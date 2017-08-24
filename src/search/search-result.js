@@ -11,7 +11,7 @@ export default class SearchResult extends Component {
                     <p className="search-result__description">{l.name}</p>
                 </div>
                 <a href={l.url} target="_blank">
-                    <img className="search-result__thumb" src={l.imageUrl}/>
+                    <img className="search-result__thumb" alt={l.name} src={l.imageUrl}/>
                 </a>
             </div>
         );
