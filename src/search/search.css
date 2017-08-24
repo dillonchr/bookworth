@@ -1,5 +1,37 @@
 .search {
-    
+    display: flex;
+    height: 42px;
+    margin: auto;
+    width: 300px;
+}
+
+.search__input {
+    appearance: none;
+    border: solid 1px #000;
+    border-radius: 0;
+    border-right: none;
+    box-sizing: border-box;
+    flex: 2 1 auto;
+    height: 100%;
+    width: 100%;
+}
+
+.search__input:focus,
+.searc__button:focus {
+    outline: none;
+}
+
+.search__button {
+    border: solid 1px #000;
+    border-radius: 0;
+    flex: 0 0 auto;
+    height: 30px;
+    width: 30px;
+    padding: 5px;
+}
+
+.search__button:nth-of-type(3) {
+    border-left: none;
 }
 
 .search-result {
