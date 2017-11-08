@@ -1,10 +1,8 @@
 const API_KEY = 'DillonCh-4ce2-442c-b779-8d0905e2d5e4';
-const REGEX = {
-    AUDIOBOOK: /audiobook|[^\w]cd[^\w]|cds/i,
-    LEATHER: /[^\w]leather|deluxe/i,
-    LOT: /[^\w]set[^\w]|lot of|[^\w]lot[^\w]/i,
-    SIGNED: /signed|inscribed|autograph/i
-};
+const isAudiobook = s => /audiobook|[^\w]cd[^\w]|cds/i.test(s);
+const isLeather = s => /[^\w]leather|deluxe/i.test(s);
+const isLot = s => /[^\w]set[^\w]|lot of|[^\w]lot[^\w]/i.test(s);
+const isSigned = s => /signed|inscribed|autograph/i.test(s);
 const sellingStatuses = ['EndedWithSales', 'Active'];
 let jsonCallbackCounter = 0;
 
@@ -36,16 +34,16 @@ class Searcher {
 
     apiFetch(options) {
         return new Promise((res, rej) => {
-            options.callback = `jsonp_${jsonCallbackCounter++}`;
-            const url = this.buildApiUrl(options);
+            const callback = `jsonp_${jsonCallbackCounter++}`;
+            const url = this.buildApiUrl({...options, callback});
             const script = document.createElement('script');
             script.onerror = rej;
             script.src = url;
 
-            window[options.callback] = data => {
+            window[callback] = data => {
                 script.parentNode.removeChild(script);
                 res(data);
-                delete window[options.callback];
+                delete window[callback];
             };
 
             document.head.appendChild(script);
@@ -55,12 +53,12 @@ class Searcher {
 
     transformEbayResponse(listings) {
         //  their JSON is all wrapped in single item arrays :/
-        const firstKey = Object.keys(listings)[0];
+        const [ firstKey ] = Object.keys(listings);
         const resultSet = listings[firstKey][0].searchResult[0].item;
         return resultSet
-            .filter(l => !!l.galleryURL && l.galleryURL.length > 0 && sellingStatuses.indexOf(l.sellingStatus[0].sellingState[0]) !== -1)
+            .filter(l => !!l.galleryURL && l.galleryURL.length > 0 && sellingStatuses.includes(l.sellingStatus[0].sellingState[0]))
             .map(l => {
-                const title = l.title[0];
+                const [ title ] = l.title;
                 const price = Math.round(parseFloat(l.sellingStatus[0].convertedCurrentPrice[0].__value__));
                 const date = new Date(l.listingInfo[0].endTime[0]).getTime();
 
@@ -72,10 +70,10 @@ class Searcher {
                     sortDate: date,
                     date: l.listingInfo[0].endTime[0],
                     url: l.viewItemURL[0],
-                    signed: REGEX.SIGNED.test(title),
-                    lot: REGEX.LOT.test(title),
-                    audiobook: REGEX.AUDIOBOOK.test(title),
-                    leather: REGEX.LEATHER.test(title),
+                    signed: isSigned(title),
+                    lot: isLot(title),
+                    audiobook: isAudiobook(title),
+                    leather: isLeather(title),
                     sold: l.sellingStatus[0].sellingState[0] === sellingStatuses[0]
                 };
             });
