@@ -18,34 +18,21 @@ class Search extends Component {
     };
 
     getFilterOption(label) {
-        const optionValue = FILTER_SETTINGS[label.toUpperCase()];
-        const isSelected = this.state.filter === optionValue;
+        const filter = FILTER_SETTINGS[label.toUpperCase()];
+        const isSelected = this.state.filter === filter;
         const className = `filter__option ${isSelected && 'filter__option--selected'}`;
-        return <button className={className} onClick={() => this.setFilter(optionValue)}>{label}</button>;
-    }
-
-    setFilter(f) {
-        this.setState({
-            filter: f
-        });
+        return <button className={className} onClick={() => this.setState({filter})}>{label}</button>;
     }
 
     getFilteredListings() {
-        const l = this.state.listings;
-        const f = this.state.filter;
-        if (f === FILTER_SETTINGS.SOLD) {
-            return l.filter(l => l.sold);
-        }
-        if (f === FILTER_SETTINGS.LIVE) {
-            return l.filter(l => !l.sold);
-        }
-        return l;
+        const { listings, filter } = this.state;
+        return listings
+            .filter(l => filter === FILTER_SETTINGS.SOLD ? l.sold : (filter === FILTER_SETTINGS.LIVE ? !l.sold : true));
     }
 
     render() {
         const listings = this.getFilteredListings()
-            .map(l => (<SearchResult listing={l} key={l.id}/>));
-
+            .map(l => <SearchResult listing={l} key={l.id}/>);
         const searchIconName = this.state.searching ? 'hourglass' : 'search';
         return (
             <div>
@@ -100,16 +87,15 @@ class Search extends Component {
     }
 
     search() {
-        if (!!this.state.q && !this.state.searching) {
+        if (!this.state.searching && this.state.q) {
             this.setState({
                 searching: true
-            }, () => searcher.search(this.state.q)
-                .then(l => this.setState({
-                        listings: l,
+            });
+            searcher.search(this.state.q)
+                .then(listings => this.setState({
+                        listings,
                         searching: false
-                    })
-                )
-            );
+                    }));
         }
     }
 }
