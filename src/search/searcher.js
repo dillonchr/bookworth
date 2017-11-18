@@ -52,29 +52,32 @@ export default {
     transformEbayResponse(listings) {
         //  their JSON is all wrapped in single item arrays :/
         const [ firstKey ] = Object.keys(listings);
-        const resultSet = listings[firstKey][0].searchResult[0].item;
-        return resultSet
-            .filter(l => !!l.galleryURL && l.galleryURL.length > 0 && sellingStatuses.includes(l.sellingStatus[0].sellingState[0]))
-            .map(l => {
-                const [ title ] = l.title;
-                const price = Math.round(parseFloat(l.sellingStatus[0].convertedCurrentPrice[0].__value__));
-                const date = new Date(l.listingInfo[0].endTime[0]).getTime();
+        const resultSet = listings[firstKey][0].searchResult[0];
+        if (resultSet.item) {
+            return resultSet.item
+                .filter(l => !!l.galleryURL && l.galleryURL.length > 0 && sellingStatuses.includes(l.sellingStatus[0].sellingState[0]))
+                .map(l => {
+                    const [ title ] = l.title;
+                    const price = Math.round(parseFloat(l.sellingStatus[0].convertedCurrentPrice[0].__value__));
+                    const date = new Date(l.listingInfo[0].endTime[0]).getTime();
 
-                return {
-                    id: l.itemId[0],
-                    price: price,
-                    imageUrl: l.galleryURL[0],
-                    name: title,
-                    sortDate: date,
-                    date: l.listingInfo[0].endTime[0],
-                    url: l.viewItemURL[0],
-                    signed: isSigned(title),
-                    lot: isLot(title),
-                    audiobook: isAudiobook(title),
-                    leather: isLeather(title),
-                    sold: l.sellingStatus[0].sellingState[0] === sellingStatuses[0]
-                };
-            });
+                    return {
+                        id: l.itemId[0],
+                        price: price,
+                        imageUrl: l.galleryURL[0],
+                        name: title,
+                        sortDate: date,
+                        date: l.listingInfo[0].endTime[0],
+                        url: l.viewItemURL[0],
+                        signed: isSigned(title),
+                        lot: isLot(title),
+                        audiobook: isAudiobook(title),
+                        leather: isLeather(title),
+                        sold: l.sellingStatus[0].sellingState[0] === sellingStatuses[0]
+                    };
+                });
+        }
+        return [];
     },
     searchSoldListings(query) {
         return this.apiFetch('findCompletedItems', query, SoldItemsOnly);
