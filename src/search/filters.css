@@ -1,0 +1,32 @@
+.filter {
+    border: solid 1px #000;
+    border-top: none;
+    box-sizing: border-box;
+    display: flex;
+    margin: auto;
+    padding: 0;
+    width: 300px;
+}
+
+.filter__option {
+    appearance: none;
+    background: white;
+    border: none;
+    border-left: solid 1px #000;
+    flex: 1;
+    margin: 0;
+    padding: 0.5rem;
+}
+
+.filter__option:focus {
+    outline: none;
+}
+
+.filter__option:first-child {
+    border-left: none;
+}
+
+.filter__option--selected {
+    background: #000;
+    color: #fff;
+}
