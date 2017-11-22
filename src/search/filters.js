@@ -1,5 +1,6 @@
 import React from 'react';
 import './filters.css';
+import { connect } from 'react-redux';
 
 export const FilterOptions = {
     ALL: 0,
@@ -7,12 +8,16 @@ export const FilterOptions = {
     LIVE: 2
 };
 
-export default ({currentFilter, onFilterChange}) => {
+const mapStateToProps = state => ({
+    currentFilter: state.filter
+});
+
+const Filters = ({dispatch, currentFilter, onFilterChange}) => {
     const getOptionButton = label => {
         const filter = FilterOptions[label.toUpperCase()];
         const isSelected = currentFilter === filter;
         const className = `filter__option ${isSelected && 'filter__option--selected'}`;
-        return <button className={className} onClick={() => onFilterChange({filter})}>{label}</button>;
+        return <button className={className} onClick={() => dispatch({ type: 'filter', value: filter })}>{label}</button>;
     };
     
     return (
@@ -23,3 +28,5 @@ export default ({currentFilter, onFilterChange}) => {
         </div>
     );
 };
+
+export default connect(mapStateToProps)(Filters);

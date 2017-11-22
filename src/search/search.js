@@ -1,79 +1,61 @@
-import React, { Component } from 'react';
+import React from 'react';
 import searcher from './searcher';
 import SearchResults from './search-results';
+import Filters from './filters';
+import { connect } from 'react-redux';
 import './search.css';
-import Filters, { FilterOptions } from './filters';
 
-class Search extends Component {
-    state = {
-        q: '',
-        listings: [],
-        searching: false,
-        filter: FilterOptions.ALL
-    };
+const mapStateToProps = state => ({
+    listings: state.filteredListings,
+    q: state.q,
+    searching: state.isSearching
+});
 
-    getFilteredListings() {
-        const { listings, filter } = this.state;
-        return listings
-            .filter(l => filter === FilterOptions.SOLD ? l.sold : (filter === FilterOptions.LIVE ? !l.sold : true));
-    }
+const Search = props => {
+    const onInputChange = e => props.dispatch({type: 'search-input', value: e.target.value});
 
-    blurInput = () => this.searchInput.blur();
+    const clear = e => e.preventDefault() || props.dispatch({type: 'clear-listings'});
 
-    onSubmitSearch = e => {
-        e.preventDefault();
-        this.search();
-        this.blurInput();
-    };
-
-    onInputChange = e => this.setState({q: e.target.value});
-
-    clear = () => {
-        this.setState({
-            q: '',
-            listings: []
-        });
-    };
-
-    search() {
-        if (!this.state.searching && this.state.q) {
-            this.setState({
-                searching: true
-            });
-            searcher.search(this.state.q)
-                .then(listings => this.setState({
-                        listings,
-                        searching: false
-                    }));
+    const search = () => {
+        if (!props.searching && props.q) {
+            props.dispatch({type: 'search-start'});
+            searcher.search(props.q)
+                .then(listings => props.dispatch({
+                    type: 'search-results',
+                    value: listings
+                }));
         }
-    }
+    };
 
-    render() {
-        const searchIconName = this.state.searching ? 'hourglass' : 'search';
-        return (
-            <div>
-                <form className='search' onSubmit={this.onSubmitSearch}>
-                    <input type='text'
-                           value={this.state.q}
-                           onChange={this.onInputChange}
-                           placeholder='search eBay book listings'
-                           ref={i => this.searchInput = i}
-                           className='search__input' />
-                    <input type='image'
-                         alt='Search'
-                         className='search__button'
-                         src={`imgs/icon-${searchIconName}.gif`} />
-                    <input type='image'
-                         alt='Clear'
-                         src='imgs/icon-clear.gif'
-                         className='search__button'
-                         onClick={this.clear} />
-                </form>
-                <Filters currentFilter={this.state.filter} onFilterChange={f => this.setState(f)} />
-                <SearchResults listings={this.getFilteredListings()} />
-            </div>
-        );
-    }
+    const onSubmitSearch = e => {
+        e.preventDefault();
+        search();
+    };
+
+    const searchIconName = props.searching ? 'hourglass' : 'search';
+
+    return (
+        <div>
+            <form className='search' onSubmit={onSubmitSearch}>
+                <input type='text'
+                    value={props.q}
+                    onChange={onInputChange}
+                    placeholder='search eBay book listings'
+                    className='search__input' />
+                <input type='image'
+                    alt='Search'
+                    className='search__button'
+                    src={`imgs/icon-${searchIconName}.gif`} />
+                <input type='image'
+                    alt='Clear'
+                    src='imgs/icon-clear.gif'
+                    className='search__button'
+                    onClick={clear} />
+            </form>
+            <Filters />
+            <SearchResults listings={props.listings} />
+        </div>
+    );
 }
 
-export default Search;
+export default connect(mapStateToProps)(Search);
