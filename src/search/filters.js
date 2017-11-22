@@ -1,6 +1,6 @@
 import React from 'react';
-import './filters.css';
 import { connect } from 'react-redux';
+import './filters.css';
 
 export const FilterOptions = {
     ALL: 0,
@@ -12,7 +12,7 @@ const mapStateToProps = state => ({
     currentFilter: state.filter
 });
 
-const Filters = ({dispatch, currentFilter, onFilterChange}) => {
+const Filters = ({dispatch, currentFilter}) => {
     const getOptionButton = label => {
         const filter = FilterOptions[label.toUpperCase()];
         const isSelected = currentFilter === filter;
