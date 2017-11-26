@@ -1,12 +1,9 @@
 import React from 'react';
 import searcher from './searcher';
-import SearchResults from './search-results';
-import Filters from './filters';
 import { connect } from 'react-redux';
 import './search.css';
 
 const mapStateToProps = state => ({
-    listings: state.filteredListings,
     q: state.q,
     searching: state.isSearching
 });
@@ -52,8 +49,6 @@ const Search = props => {
                     className='search__button'
                     onClick={clear} />
             </form>
-            <Filters />
-            <SearchResults listings={props.listings} />
         </div>
     );
 }

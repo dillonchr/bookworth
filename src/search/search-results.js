@@ -1,5 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import './search-result.css';
+
+const mapStateToProps = (state) => ({
+    listings: state.filteredListings
+});
 
 export const SearchResult = ({listing}) => {
     const { sold, price, name, imageUrl, url } = listing;
@@ -17,10 +22,12 @@ export const SearchResult = ({listing}) => {
     );
 };
 
-export default ({listings}) => {
+const SearchResults = ({listings}) => {
     return (
         <div className="search__results">
             {listings.map(l => <SearchResult listing={l} key={l.id}/>)}
         </div>
     );
 };
+
+export default connect(mapStateToProps)(SearchResults);
