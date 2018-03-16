@@ -1,17 +1,15 @@
 .search-result {
     align-items: center;
     background: white;
-    border-radius: 5px;
-    border-left: solid 10px yellow;
     display: flex;
     justify-content: space-between;
-    margin: 0.5em;
+    margin: 1em;
     max-width: 100%;
     overflow: auto;
 }
 
-.search-result.sold {
-    border-left-color: green;
+.search-result.sold .search-result__price {
+    color: #00a74e;
 }
 
 .search-result__text {
@@ -20,6 +18,7 @@
 }
 
 .search-result__price {
+    font-size: 3rem;
     font-weight: bold;
     margin: 0;
 }
@@ -30,6 +29,7 @@
 
 @media (min-width: 1500px) {
     .search-result {
+        margin: 0.5em 1em;
         width: calc(25% - 2em);
     }
 }
@@ -43,10 +43,14 @@
 @media (min-width: 768px) and (max-width: 999px) {
     .search-result {
         width: calc(50% - 2em);
-    }   
+    }
 }
 
 @media (min-width: 768px) {
+    .search-result {
+        margin: 0.5em 1em;
+    }
+
     .search-result__text {
         margin: 1em;
     }
