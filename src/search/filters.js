@@ -16,10 +16,10 @@ const Filters = ({dispatch, currentFilter}) => {
     const getOptionButton = label => {
         const filter = FilterOptions[label.toUpperCase()];
         const isSelected = currentFilter === filter;
-        const className = `filter__option ${isSelected && 'filter__option--selected'}`;
+        const className = `filter__option ${label.toLowerCase()} ${isSelected && 'filter__option--selected'}`;
         return <button className={className} onClick={() => dispatch({ type: 'filter', value: filter })}>{label}</button>;
     };
-    
+
     return (
         <div className="filter">
             {getOptionButton('All')}
