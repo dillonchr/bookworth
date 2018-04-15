@@ -2,7 +2,7 @@
   "name": "bookworth",
   "version": "0.2.0",
   "private": true,
-  "homepage": "https://dizzillionaire.neocities.org/bookworth/",
+  "homepage": "https://bookworth.net/",
   "dependencies": {
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
