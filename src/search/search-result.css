@@ -70,8 +70,21 @@
     padding: 0.25rem;
     position: absolute;
     right: 0;
-    text-align: right;
+    text-align: center;
     top: 0;
+    width: 6rem;
+}
+
+.search-result__price-rank {
+    background: #00a74e;
+    bottom: 0;
+    height: 2px;
+    position: absolute;
+    left: 0;
+}
+
+.sold .search-result__price-rank {
+    background: black;
 }
 
 .search-result__description {

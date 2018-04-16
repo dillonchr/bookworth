@@ -6,17 +6,19 @@ const mapStateToProps = (state) => ({
     listings: state.filteredListings
 });
 
-export const SearchResult = ({listing}) => {
+export const SearchResult = ({listing, high}) => {
     const { sold, price, name, imageUrl, url, watchers } = listing;
     const statusClass = `search-result ${sold && 'sold'}`;
     return(
         <div className={statusClass}>
             <a href={url} target="_blank" className="search-result__thumb" style={{backgroundImage: `url(${imageUrl})`}}>&nbsp;</a>
             <div className="search-result__text">
-
                 <p className="search-result__description">{name}</p>
             </div>
-            <p className="search-result__price">${price}</p>
+            <p className="search-result__price">
+                {price}
+                <div className="search-result__price-rank" style={{width: `${price / high * 100}%`}} />
+            </p>
             <p className={`search-result__watchers ${!watchers && 'search-result__watchers--none'}`}>
                 <p className="search-result__watchers-count">{watchers}</p>
                 <svg className="search-result__watchers-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488.85 488.85">
@@ -28,9 +30,10 @@ export const SearchResult = ({listing}) => {
 };
 
 const SearchResults = ({listings}) => {
+    const highPrice = listings.length && listings[0].price;
     return (
         <div className="search__results">
-            {listings.map(l => <SearchResult listing={l} key={l.id}/>)}
+            {listings.map(l => <SearchResult listing={l} key={l.id} high={highPrice}/>)}
         </div>
     );
 };
