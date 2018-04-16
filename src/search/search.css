@@ -33,10 +33,3 @@
 .search__button:nth-of-type(3) {
     border-left: none;
 }
-
-@media (min-width: 768px) {
-    .search__results {
-        display: flex;
-        flex-wrap: wrap;
-    }
-}

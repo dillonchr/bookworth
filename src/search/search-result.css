@@ -1,11 +1,64 @@
+.search__results {
+    margin: auto;
+    width: 900px;
+}
+
 .search-result {
     align-items: center;
     background: white;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     margin: 1em;
     max-width: 100%;
     overflow: auto;
+    position: relative;
+}
+
+.search-result__thumb {
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    border: solid 1px #eee;
+    height: 225px;
+    margin: 1rem 0 1rem 1rem;
+    width: 225px;
+    flex-basis: 225px;
+    flex-shrink: 0;
+}
+
+.search-result__watchers {
+    bottom: 0.5rem;
+    margin: 0;
+    position: absolute;
+    right: 1rem;
+}
+
+.search-result__watchers--none .search-result__watchers-count {
+    display: none;
+}
+
+.search-result__watchers--none .search-result__watchers-icon {
+    opacity: 0.25;
+}
+
+.search-result__watchers-count {
+    font-size: 0.8rem;
+    margin: 0;
+}
+
+.search-result__watchers-icon {
+    width: 1.25rem;
+}
+
+.search-result__watchers-icon:after {
+    content: attr(data-watchers);
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    text-align: center;
 }
 
 .search-result.sold .search-result__price {
@@ -15,34 +68,36 @@
 .search-result__text {
     margin: 0.5em;
     text-align: left;
+    flex-grow: 1;
 }
 
 .search-result__price {
     font-size: 3rem;
     font-weight: bold;
     margin: 0;
+    text-align: right;
 }
 
 .search-result__description {
+    font-size: 1.2rem;
     margin: 0;
 }
 
 @media (min-width: 1500px) {
     .search-result {
         margin: 0.5em 1em;
-        width: calc(25% - 2em);
     }
 }
 
 @media (min-width: 1000px) and (max-width: 1499px) {
     .search-result {
-        width: calc(33% - 2em);
+
     }
 }
 
 @media (min-width: 768px) and (max-width: 999px) {
     .search-result {
-        width: calc(50% - 2em);
+
     }
 }
 

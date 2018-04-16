@@ -68,6 +68,7 @@ export default {
                         name: title,
                         sortDate: date,
                         date: l.listingInfo[0].endTime[0],
+                        watchers: +((l.listingInfo[0].watchCount||[])[0] || 0),
                         url: l.viewItemURL[0],
                         signed: isSigned(title),
                         lot: isLot(title),
