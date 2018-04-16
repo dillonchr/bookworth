@@ -13,9 +13,10 @@ export const SearchResult = ({listing}) => {
         <div className={statusClass}>
             <a href={url} target="_blank" className="search-result__thumb" style={{backgroundImage: `url(${imageUrl})`}}>&nbsp;</a>
             <div className="search-result__text">
-                <p className="search-result__price">${price}</p>
+
                 <p className="search-result__description">{name}</p>
             </div>
+            <p className="search-result__price">${price}</p>
             <p className={`search-result__watchers ${!watchers && 'search-result__watchers--none'}`}>
                 <p className="search-result__watchers-count">{watchers}</p>
                 <svg className="search-result__watchers-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488.85 488.85">

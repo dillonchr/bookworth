@@ -51,20 +51,27 @@
 }
 
 .search-result.sold .search-result__price {
-    color: #00a74e;
+    background: #00a74e;
 }
 
 .search-result__text {
-    margin: 0.5em;
-    text-align: left;
     flex-grow: 1;
+    font-size: 2rem;
+    padding: 4rem;
+    text-align: left;
 }
 
 .search-result__price {
-    font-size: 3rem;
+    background: black;
+    color: white;
+    font-size: 2rem;
     font-weight: bold;
     margin: 0;
+    padding: 0.25rem;
+    position: absolute;
+    right: 0;
     text-align: right;
+    top: 0;
 }
 
 .search-result__description {
