@@ -15,7 +15,7 @@ export const SearchResult = ({listing}) => {
                 <p className="search-result__price">${price}</p>
                 <p className="search-result__description">{name}</p>
             </div>
-            <a href={url} target="_blank">
+            <a href={url} target="_blank" rel="noopener noreferrer">
                 <img className="search-result__thumb" alt={name} src={imageUrl} />
             </a>
         </div>
