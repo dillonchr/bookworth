@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  bookworth_ui:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    restart: on-failure
+    volumes:
+      - .:/code/
+      - /code/node_modules/
+    ports:
+      - 7788:3000
