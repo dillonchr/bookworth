@@ -3,5 +3,7 @@ version: '2'
 services:
   bookworth:
     build: .
+    environment:
+      - REACT_APP_API_URL=https://api.bookworth.space/ebay
     ports:
       - 7707:5000

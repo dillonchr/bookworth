@@ -7,7 +7,7 @@ const mapStateToProps = (state) => ({
 });
 
 export const SearchResult = ({listing}) => {
-    const { sold, price, name, imageUrl, url } = listing;
+    const { sold, price, about: name, image: imageUrl, url } = listing;
     const statusClass = `search-result ${sold && 'sold'}`;
     return(
         <div className={statusClass}>
@@ -15,7 +15,7 @@ export const SearchResult = ({listing}) => {
                 <p className="search-result__price">${price}</p>
                 <p className="search-result__description">{name}</p>
             </div>
-            <a href={url} target="_blank">
+            <a href={url} target="_blank" rel="noopener noreferrer">
                 <img className="search-result__thumb" alt={name} src={imageUrl} />
             </a>
         </div>
@@ -25,7 +25,7 @@ export const SearchResult = ({listing}) => {
 const SearchResults = ({listings}) => {
     return (
         <div className="search__results">
-            {listings.map(l => <SearchResult listing={l} key={l.id}/>)}
+            {listings.map((l, i) => <SearchResult listing={l} key={`${i}${l.id}`}/>)}
         </div>
     );
 };
