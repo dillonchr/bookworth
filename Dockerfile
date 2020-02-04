@@ -1,9 +1,9 @@
 FROM mhart/alpine-node:10.7.0
-RUN npm i -g serve > /dev/null
+RUN yarn global add serve
 WORKDIR /code/
 COPY package*.json ./
-RUN npm i > /dev/null
+RUN yarn
 COPY . .
-RUN npm run build --production > /dev/null
+RUN yarn build --production
 CMD serve -s build
 EXPOSE 5000

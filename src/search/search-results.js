@@ -7,7 +7,7 @@ const mapStateToProps = (state) => ({
 });
 
 export const SearchResult = ({listing}) => {
-    const { sold, price, name, imageUrl, url } = listing;
+    const { sold, price, about: name, image: imageUrl, url } = listing;
     const statusClass = `search-result ${sold && 'sold'}`;
     return(
         <div className={statusClass}>
@@ -25,7 +25,7 @@ export const SearchResult = ({listing}) => {
 const SearchResults = ({listings}) => {
     return (
         <div className="search__results">
-            {listings.map(l => <SearchResult listing={l} key={l.id}/>)}
+            {listings.map((l, i) => <SearchResult listing={l} key={`${i}${l.id}`}/>)}
         </div>
     );
 };
